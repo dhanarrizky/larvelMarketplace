@@ -12,7 +12,7 @@
             <div class="container">
                 <div class="breadcrumb">
                     <a href="/" rel="nofollow">Home</a>
-                    <span></span> All Categories
+                    <span></span> All Slider
                 </div>
             </div>
         </div>
@@ -25,10 +25,10 @@
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        All Categories
+                                        All Slider
                                     </div>
                                     <div class="col-md-6">
-                                        <a href="{{ route('admin.category.add') }}" class="btn btn-success float-end">Add New Category</a>
+                                        <a href="{{ route('admin.home.slide.add') }}" class="btn btn-success float-end">Add New Slide</a>
                                     </div>
                                 </div>
                             </div>
@@ -40,34 +40,38 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>image</th>
-                                            <th>Name</th>
-                                            <th>Slug</th>
-                                            <th>popular</th>
+                                            <th>Image</th>
+                                            <th>TopTitle</th>
+                                            <th>Title</th>
+                                            <th>SubTitle</th>
+                                            <th>Offer</th>
+                                            <th>Link</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @php
-                                            $i = ($categories->currentPage()-1)*$categories->perPage();
+                                            $i = 0;
                                         @endphp
-                                        @foreach ($categories as $category)
+                                        @foreach ($slider as $slide)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            <td><img src="{{ asset('assets/imgs/categories') }}/{{ $category->image }}" width="120"></td>
-                                            <td>{{ $category->name }}</td>
-                                            <td>{{ $category->slug }}</td>
-                                            <td>{{ $category->is_popular == 1 ? 'Yes':'No' }}</td>
+                                            <td><img src="{{ asset('assets/imgs/slider') }}/{{ $slide->image }}" alt="{{ $slide->image }}" width="60"></td>
+                                            <td>{{ $slide->top_title }}</td>
+                                            <td>{{ $slide->title }}</td>
+                                            <td>{{ $slide->sub_title }}</td>
+                                            <td>{{ $slide->offer }}</td>
+                                            <td>{{ $slide->link }}</td>
+                                            <td>{{ $slide->status == 1 ? 'active':'Inactive'}}</td>
                                             <td>
-                                                <a href="{{ route('admin.category.edit',['category_id'=>$category->id]) }}" class="text-info">Edit</a>
-                                                {{-- delete button --}}
-                                                <a href="#" class="text-danger" onclick="deleteConfirmation({{ $category->id }})" style="margin-left:20px;">Delete</a>
+                                                <a href="{{ route('admin.home.slide.edit',['slider_id'=>$slide->id]) }}" class="text-info">Edit</a>
+                                                <a href="#" class="text-danger" onclick="deleteConfirmation({{ $slide->id }})" style="margin-left:20px;">Delete</a>
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                                {{ $categories->links() }}
                             </div>
                         </div>
 
@@ -79,7 +83,7 @@
 </div>
 
 
-{{-- for page alert before make sure user want to deleted it or not --}}
+for page alert before make sure user want to deleted it or not
 <div class="modal" id="deleteConfirmation">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -88,7 +92,7 @@
                     <div class="col-md-12 text-center">
                         <h4 class="pb-3">Do You Want to Delete this record ?!</h4>
                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteConfirmation">Cencel</button>
-                        <button type="button" class="btn btn-danger" onclick="deleteCategory()">Delete</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteSlide()">Delete</button>
                     </div>
                 </div>
             </div>
@@ -100,13 +104,13 @@
     <script>
         function deleteConfirmation(id)
         {
-            @this.set('category_id',id);
+            @this.set('slider_id',id);
             $('#deleteConfirmation').modal('show');
         }
 
-        function deleteCategory()
+        function deleteSlide()
         {
-            @this.call('deleteCategory');
+            @this.call('deleteSlide');
             $('#deleteConfirmation').modal('hide')
         }
     </script>

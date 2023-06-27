@@ -40,7 +40,6 @@
                                     <div class="mb-3 mt-3">
                                         <label for="name" class="form-label">Name</label>
                                         <input type="text" name="name" class="form-control" placeholder="Enter Category Name" wire:model="name" wire:keyup="generateSlug">
-                                        {{-- for validate name --}}
                                         @error('name')
                                             <p class="text-danger">{{ $message }}</p>
                                         @enderror
@@ -51,6 +50,29 @@
                                         {{-- for validate slug --}}
                                         @error('slug')
                                             <p class="text-danger">{{ $massage }}</p>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3 mt-3">
+                                        <label for="newimage" class="form-label">Image</label>
+                                        <input type="file" name="newimage" class="form-control" wire:model="newimage">
+                                        {{-- for validate newimage --}}
+                                        @error('newimage')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
+                                        @if ($newimage)
+                                            <img src="{{ $newimage->temporaryUrl() }}" width="120">
+                                        @else
+                                            <img src="{{ asset('assets/imgs/categories') }}/{{ $image }}" width="120">
+                                        @endif
+                                    </div>
+                                    <div class="mb-3 mt-3">
+                                        <label for="slug" class="form-label">Popular</label>
+                                        <select name="" class="form-control" wire:model='is_popular'>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                        @error('is_popular')
+                                            <p class="text-danger">{{ $message }}</p>
                                         @enderror
                                     </div>
                                     <button type="submit" class="btn btn-primary float-end">Submit</button>
